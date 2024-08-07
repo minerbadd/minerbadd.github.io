@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+        <html>
+        <head>
+            <meta charset="UTF-8">
+            <title>CodeMark Annotation</title>
+            <style>
+/* From extension vscode.github */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+.vscode-dark img[src$=\#gh-light-mode-only],
+.vscode-light img[src$=\#gh-dark-mode-only],
+.vscode-high-contrast:not(.vscode-high-contrast-light) img[src$=\#gh-light-mode-only],
+.vscode-high-contrast-light img[src$=\#gh-dark-mode-only] {
+	display: none;
+}
+
+</style>
+            
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/markdown.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/highlight.css">
+<style>
+            body {
+                font-family: -apple-system, BlinkMacSystemFont, 'Segoe WPC', 'Segoe UI', system-ui, 'Ubuntu', 'Droid Sans', sans-serif;
+                font-size: 14px;
+                line-height: 1.6;
+            }
+        </style>
+        <style>
+.task-list-item {
+    list-style-type: none;
+}
+
+.task-list-item-checkbox {
+    margin-left: -20px;
+    vertical-align: middle;
+    pointer-events: none;
+}
+</style>
+<style>
+:root {
+  --color-note: #0969da;
+  --color-tip: #1a7f37;
+  --color-warning: #9a6700;
+  --color-severe: #bc4c00;
+  --color-caution: #d1242f;
+  --color-important: #8250df;
+}
+
+</style>
+<style>
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-note: #2f81f7;
+    --color-tip: #3fb950;
+    --color-warning: #d29922;
+    --color-severe: #db6d28;
+    --color-caution: #f85149;
+    --color-important: #a371f7;
+  }
+}
+
+</style>
+<style>
+.markdown-alert {
+  padding: 0.5rem 1rem;
+  margin-bottom: 16px;
+  color: inherit;
+  border-left: .25em solid #888;
+}
+
+.markdown-alert>:first-child {
+  margin-top: 0
+}
+
+.markdown-alert>:last-child {
+  margin-bottom: 0
+}
+
+.markdown-alert .markdown-alert-title {
+  display: flex;
+  font-weight: 500;
+  align-items: center;
+  line-height: 1
+}
+
+.markdown-alert .markdown-alert-title .octicon {
+  margin-right: 0.5rem;
+  display: inline-block;
+  overflow: visible !important;
+  vertical-align: text-bottom;
+  fill: currentColor;
+}
+
+.markdown-alert.markdown-alert-note {
+  border-left-color: var(--color-note);
+}
+
+.markdown-alert.markdown-alert-note .markdown-alert-title {
+  color: var(--color-note);
+}
+
+.markdown-alert.markdown-alert-important {
+  border-left-color: var(--color-important);
+}
+
+.markdown-alert.markdown-alert-important .markdown-alert-title {
+  color: var(--color-important);
+}
+
+.markdown-alert.markdown-alert-warning {
+  border-left-color: var(--color-warning);
+}
+
+.markdown-alert.markdown-alert-warning .markdown-alert-title {
+  color: var(--color-warning);
+}
+
+.markdown-alert.markdown-alert-tip {
+  border-left-color: var(--color-tip);
+}
+
+.markdown-alert.markdown-alert-tip .markdown-alert-title {
+  color: var(--color-tip);
+}
+
+.markdown-alert.markdown-alert-caution {
+  border-left-color: var(--color-caution);
+}
+
+.markdown-alert.markdown-alert-caution .markdown-alert-title {
+  color: var(--color-caution);
+}
+
+</style>
+        <style>
+/* MUSE MD css */
+
+body {
+font-family: Segoe, 'Segoe UI', Candara, Calibri, Arial, sans-serif;
+margin-left: 10%; margin-right: 10%; line-height: 1.5; font-size: 16px;
+font-weight: 400
+}
+code {
+    color: #0f8928; /* base00 */
+	font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+	font-size: 16px;
+	text-align: left;
+}
+
+
+
+</style>
+        </head>
+        <body class="vscode-body vscode-light">
+            <h1 id="codemark-annotation">CodeMark Annotation</h1>
+<p>CodeMark annotations are an attempt to provide an easily maintainable type check and documentation system for Lua application development. The main idea, and not a new one, is that documentation needs to be included close to its relevant implementation. The documentation can then be extracted from implementations to create summaries of the exported elements of a file and project wide repositories of reference material. This material can be used by integrated development environments to provide information to developers and maintainers when and where it is most pertinent.</p>
+<p>One example of a development environment, and the focus of a particular CodeMark implementation is the <a href="https://studio.zerobrane.com/" target="_blank"> ZeroBrane Studio </a>, ZBS. Another is <a href="https://code.visualstudio.com/" target="_blank"> Visual Studio Code </a>, VSC. CodeMark provides support for both environments. The CodeMark package generates type definitions, function signatures, and tooltips for ZBS and VSC from a common set of concise code annotations. VSC support includes provision for type checking by the <a href="https://luals.github.io/" target="_blank">  Lua Language Server</a>, LLS. The annotations are used to generate summary documentation in both <a href="https://en.wikipedia.org/wiki/Markdown" target="_blank"> Markdown </a> and HTML formats. There's a copy facility so that comments and definitions can be supplied once and reapplied with relevent local changes wherever appropriate.</p>
+<p>CodeMark deals with more than function signatures and type definitions. Descriptions of Command Line Interfaces (CLIs) are used to generate simple text help files. CLI descriptions can be documented in their implementations and copied to where they're used.</p>
+<p>CodeMark has been used in a modestly sized project, MUSE, as a test of its utility. That project batches calls on the ZBS, VSC, and summary generators to provide all the documentation for the project as a whole. As mentioned, this includes help file generation. It also provides for documentation of the auxilliary files generally found as part of a project.</p>
+<p>What follows is a description of the CodeMark annotations. There are two elements of the CodeMark system: <em>mark</em> and <em>reference</em> annotations. First up are the mark annotations.</p>
+<h2 id="file-marks">File Marks</h2>
+<p>File marks on a line of the file identify the <em>Kind</em> of a CodeMark annotated file it is and carry information needed to produce output for that kind. There are three kinds of file marks, distinguished by a leading <em>Mark</em>.</p>
+<p><strong>API</strong> annotated files define a module (which may contain multiple libraries). While summary file output is generated in <a href="https://en.wikipedia.org/wiki/Markdown" target="_blank">  <em>Markdown</em> format </a> for each of the three kinds of files here, API annotated files also create and update the project wide repository mentioned earlier. This can be used by ZBS and VSC/LLS, for example, to generate completion hints and function descriptions available during editing.</p>
+<p><strong>LIST</strong> annotated files are the auxiliary files of a project. CodeMark operations just output a summary of annotations for such files.</p>
+<p><strong>HELP</strong> annotated files generate <em>help</em> text for programs (which generally provide Command Line Interfaces, CLIs). For some applications, the help file for a program needs to be in a particular place associated with a project. The <em>Sign</em> field for HELP annotated files (see below) specifies this place.</p>
+<p>Here are some examples of the three kinds for file marks:</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">Kind</th>
+<th style="text-align:center">Mark</th>
+<th style="text-align:center">Sign</th>
+<th style="text-align:center">End</th>
+<th style="text-align:center">Text</th>
+<th style="text-align:center">End</th>
+<th style="text-align:center">Out</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">API</td>
+<td style="text-align:center"><code>--:!</code></td>
+<td style="text-align:center"><code>{map: []: (:) }</code></td>
+<td style="text-align:center">&lt;-</td>
+<td style="text-align:center"><strong>CLI Library for</strong> <code>map</code></td>
+<td style="text-align:center">-&gt;</td>
+<td style="text-align:center"><code>muse/docs/lib/map.md</code></td>
+</tr>
+<tr>
+<td style="text-align:center">LIST</td>
+<td style="text-align:center"><code>--:~</code></td>
+<td style="text-align:center"><code>&quot;:&quot;</code></td>
+<td style="text-align:center">&lt;-</td>
+<td style="text-align:center"><strong>Chart 40 Block Farm</strong></td>
+<td style="text-align:center">-&gt;</td>
+<td style="text-align:center"><code>muse/docs/charts/farm40.md</code></td>
+</tr>
+<tr>
+<td style="text-align:center">HELP</td>
+<td style="text-align:center"><code>--:?</code></td>
+<td style="text-align:center"><code>rom/help/amuse.txt</code></td>
+<td style="text-align:center">&lt;-</td>
+<td style="text-align:center"><strong>Prepare a Turtle</strong></td>
+<td style="text-align:center">-&gt;</td>
+<td style="text-align:center"><code>muse/docs/amuse.md</code></td>
+</tr>
+</tbody>
+</table>
+<p>Each of these three kinds of CodeMark annotated files supply <em>Sign</em>,  <em>Text</em>, and <em>Out</em> fields in their file marks. The <em>Out</em> field specifies where to put a Markdown summary of the interfaces exposed by the file. It indicates the project name that the file is part of as the first part of that specification. Summary files and LLS libraries will be in the directory in the project file tree found with that project name. The <em>Text</em> field is just a short description of what the file is for. The <em>Sign</em> field shows CodeMark type annotation for the return values of the execution of API and LIST files.</p>
+<p>(As an aside, the API example above indicates that the <code>map</code> module's return value is a table indexed by <code>map</code> which is in turn a dictionary of functions. All to be described later.)</p>
+<h2 id="reference-marks">Reference Marks</h2>
+<p>Reference marks provide the bulk of CodeMark annotations in a file. They are included in the summary file output for the CodeMark annotated file and may either generate a help file or make changes to the project repository, a file where project wide information is kept .</p>
+<p><strong>LIB</strong> marks for a module create project repository entries with descriptions of the module's libraries. They provide information needed to produce a LLS signature file for that library. There is one such mark for a module.</p>
+<p><strong>FACE</strong> marks document the library, name, and arguments of a library function, that is, its (inter)face, as its <em>Sign</em>. (signature) They document what the element returns as <em>Out</em> as well as a description of the element as <em>Text</em>. The library and name of the element are separated by a dot (as shown in the example below). The <em>Sign</em> and <em>Out</em> fields are used as a key for code completion and type check information in the project repository. The <em>Text</em> field is also retrieved for inclusion as part of ZBS and VSC tool tips. As a special case, if the library name for the (internal) function begins with an underscore, the mark generates an entry in the project repository for type checking but is not included in the summary file output. The <em>Sign</em> and <em>Out</em> fields use CodeMark type annotation syntax described later.</p>
+<p><strong>TYPE</strong> marks provide for descriptions and completion hints for variables expected to be bound to Lua types that may or may not be specific to any one library.</p>
+<p><strong>CLI</strong> marks describe a command line interface implemented by an associated function. They put the first word of their <em>Sign</em> (stripped of formatting) in the project wide repository as a key for retrieval of its <em>Text</em>. The key is reformatted (&quot;hidden&quot;) in such a way so that it does not trigger ZBS or VSC completion hints.</p>
+<p><strong>COPY</strong> marks retrieve text by using the stripped and reformatted COPY mark's <em>SIGN</em> as a key into the repository. The COPY mark's <em>Text</em>, if any, replaces the retrieved <em>Sign</em> in the retrieved <em>Text</em>. The replaced text is included in the output file and is also used to produce the help file if one has been specified. (The same mechanism is used to retrieve FACE marks.) COPY marks allow descriptive text to be used where needed even though captured near the relevant implementation. The hope is that text near the implementation is more likely to be updated when the implementation is changed.</p>
+<p>Examples of the reference marks:</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">Kind</th>
+<th style="text-align:center">Mark</th>
+<th style="text-align:left">Sign</th>
+<th style="text-align:center"></th>
+<th style="text-align:left">Text</th>
+<th style="text-align:center"></th>
+<th style="text-align:center">Out</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">LIB</td>
+<td style="text-align:center"><code>--:|</code></td>
+<td style="text-align:left"><code>map</code></td>
+<td style="text-align:center">:</td>
+<td style="text-align:left"><em>Adds orientation view</em></td>
+<td style="text-align:center">-&gt;</td>
+<td style="text-align:center"><code>map</code></td>
+</tr>
+<tr>
+<td style="text-align:left">FACE</td>
+<td style="text-align:center"><code>--::</code></td>
+<td style="text-align:left"><code>map.get(name: &quot;:&quot;, key: &quot;:&quot;)</code></td>
+<td style="text-align:center">-&gt;</td>
+<td style="text-align:left"><em>Get feature value</em></td>
+<td style="text-align:center">-&gt;</td>
+<td style="text-align:center"><code>any | false</code></td>
+</tr>
+<tr>
+<td style="text-align:left">TYPE</td>
+<td style="text-align:center"><code>--:&gt;</code></td>
+<td style="text-align:left"><code>mineplan</code></td>
+<td style="text-align:center">:</td>
+<td style="text-align:left"><em>For ore</em></td>
+<td style="text-align:center">-&gt;</td>
+<td style="text-align:center"><code>{even: plan, odd: plan}</code></td>
+</tr>
+<tr>
+<td style="text-align:left">CLI</td>
+<td style="text-align:center"><code>--:-</code></td>
+<td style="text-align:left"><code>l[ook]</code></td>
+<td style="text-align:center">-&gt;</td>
+<td style="text-align:left"><em>Detect and inspect</em></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+</tr>
+<tr>
+<td style="text-align:left">COPY</td>
+<td style="text-align:center"><code>--:= </code></td>
+<td style="text-align:left"><code>l[ook ]</code></td>
+<td style="text-align:center">:</td>
+<td style="text-align:left">look</td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+</tr>
+</tbody>
+</table>
+<h2 id="comment-marks">Comment Marks</h2>
+<p>Comment marks are included in the summary output file as is. There are two kinds of comment marks. The first word of the <em>TEXT</em> of a <strong>WORD</strong> mark is stripped of formatting and then reformatted to provide a (hidden) key into the project repository for the mark's <em>TEXT</em>. As described previously, that text can then be referenced by COPY marks. The <em>TEXT</em> is included in the summary file for the module. The other kind of comment mark, <strong>HEAD</strong>, just puts the heading's <em>TEXT</em> in the summary.</p>
+<p><strong>MORE</strong> marks extend the descriptions of a preceding TYPE, FACE, or LIB mark. Each successive MORE appends its <em>TEXT</em> to the text of the project repository entries for those marks. This is complete when the next mark is not MORE.</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">Kind</th>
+<th style="text-align:center">Mark</th>
+<th style="text-align:left">Text</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">WORD</td>
+<td style="text-align:center">--:&lt;</td>
+<td style="text-align:left"><strong>Places - Points, Locations, Trails, and Ranges of Maps</strong></td>
+</tr>
+<tr>
+<td style="text-align:center">HEAD</td>
+<td style="text-align:center">--:#</td>
+<td style="text-align:left"><strong>Operations on places (points, trails, and ranges)</strong></td>
+</tr>
+<tr>
+<td style="text-align:center">MORE</td>
+<td style="text-align:center">--:+</td>
+<td style="text-align:left"><em>Try to move to position, dig to unblock if needed, catch and raise error.</em></td>
+</tr>
+</tbody>
+</table>
+<p>We can look at an example of a CLI definition together with its documentation and run time hint support:</p>
+<pre><code class="language-Lua"><span class="hljs-keyword">local</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">erase</span><span class="hljs-params">(name)</span></span>  
+<span class="hljs-comment">--:- erase name -&gt; Remove named place, broadcast Muse eXcise (MX). </span>
+<span class="hljs-comment">--:# Referenced through `map.op` for CLI dispatch </span>
+<span class="hljs-comment">---------implementation---------  </span>
+<span class="hljs-keyword">end</span>; map.hints[<span class="hljs-string">&quot;erase &quot;</span>] = {[<span class="hljs-string">&quot;?place&quot;</span>] = {}}  
+</code></pre>
+<p>The CLI itself is in another file in the <code>programs</code> directory:</p>
+<p><code>print(core.string(map.op({&quot;erase&quot;, ...}))) --:= erase:</code></p>
+<p>The implementation and its documentation are kept together and just referenced where applied.</p>
+<h2 id="--type-annotations-introduction"><a id="type"> </a> Type Annotations: Introduction</h2>
+<p>CodeMark annotations are more concise than those of LLS and more descriptive. But they do map to LLS annotations. The simple types such as numbers, <code>#:</code>, strings, <code>&quot;:&quot;</code>,  and booleans, <code>^:</code> map directly.  Lua also allows for &quot;userdata&quot; types, <code>@:</code>, perhaps written in C, available to the Lua runtime. The boolean values <code>true</code> and <code>false</code> as well as <code>nil</code> are represented as is. It's sometimes useful to be able to represent something that may be any type, <code>any</code>.  Further, it is common in Lua code to ignore some return values as well as some elements of a table. This is indicated by the dummy type, <code>_:</code> treated as <code>any</code>.</p>
+<p>Annotations may be grouped with parentheses, <code>()</code>. They may be combined as a union of types as <code>|</code>. They may be marked with a <code>?</code> suffix to indicate that a value may be <code>nil</code>.</p>
+<p>Functions, are annotated as <code>(:)</code> or <code>():</code>. The first case types a value as a <code>function</code> with no other information provided. The second allows for named and typed parameters as well as typed (and optionally named) return values. Here's a simple example:</p>
+<p><code>--:: move.track(enable: ^:)</code> -&gt; <em>Set tracking condition</em> -&gt; <code>enable: ^:</code></p>
+<p>Here's another with multiple returns and additional descriptive text (included in the summary and VSC tool tip):</p>
+<p><code>--::place.erase(name: &quot;:&quot;)</code> -&gt; <em>Removes named place from array of places.</em> -&gt; <code>#:, index: #:</code><br>
+--:+ <em>Return new length of places table and the (previous) index of the removed place.</em></p>
+<p>As mentioned, Lua provides a userdata type. The following function takes a file handle argument:</p>
+<p><code>--:: core.record(handle: @:, message: &quot;:&quot;, filename: &quot;:&quot;)</code> -&gt; <em>Appends (status) message to file on player</em> -&gt; <code>nil</code></p>
+<p>CodeMark annotations can document functions' raising and catching exceptions:</p>
+<p><code>--:: farm.plant(planting: &quot;:&quot;)</code> -&gt; <em>Tills and plants found planting.</em> -&gt; <code>report: &quot;:&quot; &amp;!</code></p>
+<p>It's just a way to document functions which raise an exception (<code>&amp;!</code>), catch one (<code>&amp;:</code>), or, perhaps, catch and raise one (<code>&amp;: &amp;!</code>). Lua also provides for raising an exception that includes a table, for example <code>&amp;!recovery</code> where recovery is a TYPE of table (described below).</p>
+<p>Function definitions can be copied. This turns out to be useful in avoiding repetitive boilerplate (and so simplifying maintenance). Here's a common definition:</p>
+<p><code>--:: move.moves(count: #:?)</code> -&gt; <em>Count 0: just turn, 1: default</em> -&gt;  <code>&quot;done&quot;, remaining: #:, xyzf, direction &amp;!recovery</code></p>
+<p>And here's how it's used:</p>
+<pre><code class="language-Lua"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">move.left</span><span class="hljs-params">(count)</span></span> count = count <span class="hljs-keyword">or</span> <span class="hljs-number">1</span>; <span class="hljs-keyword">return</span> turn(turnLeft, count, <span class="hljs-string">&quot;left&quot;</span>, <span class="hljs-string">&quot;move&quot;</span>) <span class="hljs-keyword">end</span> <span class="hljs-comment">--:= move.moves:: move.left:</span>
+</code></pre>
+<p>There are ten of these sharing the common definition and generating type information specific to each of the functions all the same and slightly different. (As a detail, function definitions are in a separate CodeMark name space for copy operations. The extra colon <code>move.moves::</code> above references the function name space.)</p>
+<h2 id="type-annotations-tables-and-subtypes-of-tables">Type Annotations: Tables and Subtypes of Tables</h2>
+<p>Tables are a critical building block for Lua scripts. A Lua table can be an <em>array</em>, a <em>tuple</em>, a <em>dictionary</em>, or what LLS calls <em>table literals</em>. (The last are accessed using the dot notation as seen in the function names above.) Each has its own annotation. A table can also be typed as just a table with no other information as <code>{:}</code>.  Here's an example of a TYPE annotation describing an array of strings:</p>
+<p><code>--:&gt; plan.path:</code> <em>array of space separated character sequence strings describing path</em> -&gt; <code>&quot;:&quot;[]</code></p>
+<p>CodeMark provides for naming parts of tuple and dictionaries. This information is stripped away for LLS:</p>
+<p><code>--:&gt; xyz:</code> <em>Minecraft coordinates: +x: east, +y: up, +z: south</em> -&gt; <code>:[x: #:, y: #:, z: #:]</code></p>
+<p><code>--:&gt; features:</code> <em>Dictionary of string key, any value pairs</em> -&gt; <code>[key: &quot;:&quot;]: any</code></p>
+<p>Specific kinds of tables can be thought of as being a new type which is a subtype of tables as in the examples above. Here's another example. The following function has one argument, <code>targets</code>, an array of strings. It returns a <code>detail</code> or <code>nil</code>. A <code>detail</code> is a table accessed by table literals: <code>name</code>, <code>count</code>, and <code>damage</code>. Each of these is typed and described.</p>
+<p><code>--:: core.findItems(targets: &quot;:&quot;[])</code> -&gt; <em>Selects found slot.</em> -&gt; <code>detail?</code><br>
+<code>--:&gt; detail:</code> <em>Defined by Computercraft</em> -&gt; <code>{name: detail.name, count: detail.count, damage: detail.damage}</code><br>
+<code>--:&gt; detail.name:</code> <em>Prepended by the mod name <code>&quot;minecraft:&quot;</code>.</em> -&gt; <code>&quot;:&quot;</code><br>
+<code>--:&gt; detail.count:</code> <em>Available in inventory</em> -&gt; <code>#:</code>
+<code>--:&gt; detail.damage:</code> <em>Distinguishing value</em> -&gt; <code>#:</code></p>
+<p>The subtype information, once provided, can be used throughout the project:</p>
+<p><code> --:: turtle.check(targets: &quot;:&quot;[], :detail:)</code> -&gt; <em>Tries to match each target against</em> <code>detail.name</code>. -&gt; <code>matched: ^:</code></p>
+<p>This function takes a table with some number of string elements and a <code>:detail:</code> table. As a convenience, when both the type and parameter name is the same, the name can be surrounded by colons (as, for example, <code>:detail:</code>) rather than specifying something like <code>detail:detail</code>.</p>
+<p>As promised, types (and return values of functions) can be unions. Here's one that is either an array of <code>xyz</code> elements or a dictionary keyed by <code>core.faces</code> (a type defined elsewhere) whose vaules are <code>xyz</code> elements.</p>
+<p><code>--:&gt; xyzMap:</code> <em>Table of vectors either an array or dictionary</em> -&gt; <code>xyz[] | [core.faces]: xyz</code></p>
+<p>Type declarations may, of course, be build up from other declared types:</p>
+<p><code>--:: core.vectorPairs(start: bounds, addend: xyz, number: #:, partial: bounds?)</code> -&gt; <em>Make plots.</em> -&gt; <code>bounds[]</code><br>
+<code>--:&gt; bounds:</code> <em>Vector pair defining a rectangular solid</em> -&gt; <code>:[xyz, xyz]</code></p>
+<p>The function takes a <code>bounds</code> table for its <code>start</code>, an addend, <code>addend: xyz:</code> (which, as indicated, is an <code>xyz</code> table), a <code>number</code>, <code>#:</code>, and an additional optional <code>bounds</code> table. It returns an array of <code>bounds</code>.</p>
+<h2 id="making-marks">Making Marks</h2>
+<p>CodeMark provides the programs to generate project documentation and LLS library files:</p>
+<ul>
+<li><code>apiFiles</code> generates markdown summaries and the repository (used by ZBS and <code>signfiles</code>)</li>
+<li><code>signFiles</code> generates LLS libraries, one for each source module, from the repository</li>
+<li><code>downFiles</code> generates HTML from summary files and the source modules themselves for each source module</li>
+</ul>
+<p>The <code>apiFiles</code> and <code>downFiles</code> programs are front ends for <code>apiMark</code> and <code>downMark</code> respectively. They are both used by the <code>opFiles</code> program to navigate a project directory for batch operations. Support is also provided by <code>apiMark</code> as a ZBS plug-in operating on the currently edited file with a symlink in the ZBS <code>packages</code> directory. ZBS code completions access the repository file through an appropriately named symlink in the ZBS <code>api/lua</code> directory.</p>
+<p>All the CodeMark operations are invoked by <code>Mark</code> in the <code>CodeMark</code> directory:</p>
+<p><code>Mark(apiDirectory, apiFile, sourceDirectories, docsDirectories, codeDirectories, verbose)</code></p>
+<p>The <code>apiDirectory</code> is the path to the directory for the repository and the LLS libraries (as a string). The <code>apiFile</code> is the filename (string) for the repository. The <code>sourceDirectories</code> argument is a table of strings, each entry the path to a directory of source modules. The <code>docsDirectories</code> and <code>codeDirectories</code> arguments are tables of paths (as strings) to stipulate where the code summaries and the code itself as HTML are to be put. The <code>verbose</code> argument, a boolean, is <code>true</code> for more detail on the progress of <code>Mark</code> operations.</p>
+<p>For windows, set the <code>LUA_PATH</code> environment variable for <code>require</code> calls to include <code>%LUA_PROJECTS%\CodeMark\?.lua;; </code>where <code>LUA_PROJECTS</code> is the directory where <code>CodeMark</code> can be found. In Windows, there's a GUI, <code>sysdm.cpl</code>, for that.</p>
+<h2 id="conclusions">Conclusions</h2>
+<p>There's a lot of power in Lua's representational richness. It's a dynamically typed language with all the expressive freedom and opportunity for run time error that that entails. CodeMark provides type checking (through LLS) with concise, expressive annotations and a comprehensive documentation system for two IDEs (your choice) to ease maintenance in those environments.</p>
+
+            
+            
+        </body>
+        </html>
